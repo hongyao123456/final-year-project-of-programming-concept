@@ -1,0 +1,98 @@
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.util.Scanner;
+
+public class Assignment_Q2{
+
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("Enter the number of the year:");
+            int year = scan.nextInt();
+
+            if (year <= 0) {
+                System.out.println("Error: Invalid year");
+            } else {
+                System.out.println("Enter the first day of the year:");
+                System.out.println("Enter 1 for manual input (1-7)");
+                System.out.println("Enter 2 for automatic input");
+                int choice = scan.nextInt();
+
+                int week = 0;
+                if (choice == 2) {
+                    LocalDate date = LocalDate.of(year, 1, 1);
+                    DayOfWeek dayOfWeek = date.getDayOfWeek();
+                    week = dayOfWeek.getValue();
+                } else if (choice == 1) {
+                    System.out.println("Enter the day of the week for the first day of the year (1-7):");
+                    week = scan.nextInt();
+                }
+
+                if (week >= 8 || week <= 0) {
+                    System.out.println("Error: Invalid day of week");
+                } else {
+                    for (int month = 1; month <= 12; month++) {
+                        int daysInMonth = calculateDaysInMonth(month, year);
+                        System.out.println("\n\t" + monthName(month) + " " + year);
+                        System.out.println("-----------------------------");
+                        System.out.println("Sun Mon Tue Wed Thu Fri Sat");
+
+                        int adjustedWeek = (week == 7) ? 0 : week;
+                        for (int i = 0; i < adjustedWeek; i++) {
+                            System.out.print("    ");
+                        }
+
+                        for (int day = 1; day <= daysInMonth; day++) {
+                            System.out.printf("%3d ", day);
+                            if (++week % 7 == 0) {
+                                System.out.println();
+                            }
+                        }
+                        week %= 7;
+                        System.out.println();
+                    }
+
+                    System.out.println("\nDo you want to continue printing the calendar? \n(Enter E to continue, any other key to exit)");
+                    String continueOption = scan.next();
+                    if (!continueOption.equalsIgnoreCase("E")) {
+                        break;
+                    }
+                }
+            }
+        }
+        scan.close();
+    }
+
+    static String monthName(int month) {
+        switch (month) {
+            case 1: return "January";
+            case 2: return "February";
+            case 3: return "March";
+            case 4: return "April";
+            case 5: return "May";
+            case 6: return "June";
+            case 7: return "July";
+            case 8: return "August";
+            case 9: return "September";
+            case 10: return "October";
+            case 11: return "November";
+            case 12: return "December";
+            default: return "Invalid Month";
+        }
+    }
+
+    static int calculateDaysInMonth(int month, int year) {
+        if (month == 2) {
+            if (year % 4 == 0) {
+                return 29;
+            } else {
+                return 28;
+            }
+        }
+        if (month == 4 || month == 6 || month == 9 || month == 11) {
+            return 30;
+        }
+        return 31;
+    }
+}
