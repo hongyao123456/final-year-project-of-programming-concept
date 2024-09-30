@@ -1,1 +1,1 @@
-
+The user can enter a year and the first day of the year, and a calendar for that year will be displayed on the console. For example, if the user enters the year 2018, and 1 represents Monday, the program should display a calendar for each month of that year.
